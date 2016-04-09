@@ -139,5 +139,32 @@ describe('combinations', function() {
             ];
             expect(getBestCombination(HAND, TABLE)).to.be.equal('flush');
         });
+        it('best is full house', function() {
+            const HAND = [
+                {
+                    rank: '2',
+                    suit: 'spades'
+                },
+                {
+                    rank: '2',
+                    suit: 'hearts'
+                }
+            ];
+            const TABLE = [
+                {
+                    rank: '4',
+                    suit: 'hearts'
+                },
+                {
+                    rank: '4',
+                    suit: 'spades'
+                },
+                {
+                    rank: '4',
+                    suit: 'diamonds'
+                }
+            ];
+            expect(getBestCombination(HAND, TABLE)).to.be.equal('fullhouse');
+        });
     });
 });

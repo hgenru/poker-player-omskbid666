@@ -23,9 +23,10 @@ const TWOPAIRS = 2;
 const THREE = 3;
 const STRAIGHT = 4;
 const FLUSH = 5;
+const FULLHOUSE = 6;
 
 
-const COMBINATION = ['high', 'pair', 'two_pairs', 'three', 'straight', 'flush']
+const COMBINATION = ['high', 'pair', 'two_pairs', 'three', 'straight', 'flush', 'fullhouse']
 
 var countItems = function(arr, what) {
     var count = 0;
@@ -52,10 +53,10 @@ function getAllCombinations(cards) {
     let types = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
     let values = cards.map(e => e.rank);
     let counts = types.map(c => countItems(values, c));
-    let max = Math.max.apply(Math, counts);
-    if (max === 2) {
+    if (counts.indexOf(2) !== -1) {
         combs.push(PAIR);
-    } else if (max === 3) {
+    }
+    if (counts.indexOf(3) !== -1) {
         combs.push(THREE);
     }
     if (countItems(counts, 2) === 2) {
@@ -80,6 +81,9 @@ function getAllCombinations(cards) {
         let suitesCount = suits.map(c => countItems(cardSuites, c));
         if (Math.max.apply(Math, suitesCount) === 5) {
             combs.push(FLUSH);
+        }
+        if ((combs.indexOf(THREE) !== -1) && (combs.indexOf(PAIR) !== -1)) {
+            combs.push(FULLHOUSE);
         }
     }
     return combs;
