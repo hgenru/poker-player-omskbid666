@@ -70,6 +70,9 @@ module.exports = {
             const my_stack = player.stack;
             const my_cards = player.hole_cards;
 
+            const active_player_count = players.filter(
+                e => e.status === 'active').length
+
             let minitmutRauseAmount = current_buy_in - my_bet + minimum_raise;
             let isRaiseRacing = my_bet > (my_stack / 3);
             let isPotentialRaiseRacing = (
@@ -94,6 +97,9 @@ module.exports = {
 
             let combination = combinations
                 .getBestCombination(my_cards, community_cards);
+            if (active_player_count < 3 && combination > 3) {
+                return betCallback(MAX_BET);
+            }
             if (combination > 3 && !isPotentialRaiseRacing) {
                 return betCallback(minitmutRauseAmount);
             } else if (combination > 4) {
