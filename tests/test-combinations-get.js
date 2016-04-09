@@ -18,7 +18,7 @@ describe('combinations', function() {
                     suit: 'spades'
                 }
             ];
-            getBestCombination(HAND, TABLE).should.be.equal('pair');
+            getBestCombination(HAND, TABLE).should.be.equal(1);
         });
         it('best is null', function() {
             const HAND = [
@@ -56,7 +56,7 @@ describe('combinations', function() {
                     suit: 'spades'
                 }
             ];
-            expect(getBestCombination(HAND, TABLE)).to.be.equal('three');
+            expect(getBestCombination(HAND, TABLE)).to.be.equal(3);
         });
         it('best is two pairs', function() {
             const HAND = [
@@ -83,7 +83,7 @@ describe('combinations', function() {
                     suit: 'spades'
                 }
             ];
-            expect(getBestCombination(HAND, TABLE)).to.be.equal('two_pairs');
+            expect(getBestCombination(HAND, TABLE)).to.be.equal(2);
         });
         it('best is straight', function() {
             const HAND = [
@@ -110,7 +110,7 @@ describe('combinations', function() {
                     suit: 'spades'
                 }
             ];
-            expect(getBestCombination(HAND, TABLE)).to.be.equal('straight');
+            expect(getBestCombination(HAND, TABLE)).to.be.equal(4);
         });
         it('best is flush', function() {
             const HAND = [
@@ -137,7 +137,7 @@ describe('combinations', function() {
                     suit: 'spades'
                 }
             ];
-            expect(getBestCombination(HAND, TABLE)).to.be.equal('flush');
+            expect(getBestCombination(HAND, TABLE)).to.be.equal(5);
         });
         it('best is full house', function() {
             const HAND = [
@@ -164,7 +164,7 @@ describe('combinations', function() {
                     suit: 'diamonds'
                 }
             ];
-            expect(getBestCombination(HAND, TABLE)).to.be.equal('fullhouse');
+            expect(getBestCombination(HAND, TABLE)).to.be.equal(6);
         });
     });
 });

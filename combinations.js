@@ -94,7 +94,7 @@ function getBestCombination(player_hand, cards) {
     console.log(all);
     let combs = getAllCombinations(all);
     console.log(combs);
-    return COMBINATION[Math.max.apply(Math, combs)] || null;
+    return combs.length > 0 ? Math.max.apply(Math, combs) : null;
 };
 
 
