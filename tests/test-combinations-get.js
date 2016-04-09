@@ -112,5 +112,32 @@ describe('combinations', function() {
             ];
             expect(getBestCombination(HAND, TABLE)).to.be.equal('straight');
         });
+        it('best is flush', function() {
+            const HAND = [
+                {
+                    rank: '2',
+                    suit: 'spades'
+                },
+                {
+                    rank: '3',
+                    suit: 'spades'
+                }
+            ];
+            const TABLE = [
+                {
+                    rank: '4',
+                    suit: 'spades'
+                },
+                {
+                    rank: '5',
+                    suit: 'spades'
+                },
+                {
+                    rank: '6',
+                    suit: 'spades'
+                }
+            ];
+            expect(getBestCombination(HAND, TABLE)).to.be.equal('flush');
+        });
     });
 });
