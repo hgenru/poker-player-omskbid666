@@ -73,7 +73,7 @@ module.exports = {
             const active_player_count = players.filter(
                 e => e.status === 'active').length
             const folded_player_count = players.filter(
-                    e => e.status === 'folded').length
+                e => e.status === 'folded').length
 
             let minimumRaiseAmount = current_buy_in - my_bet + minimum_raise;
             let isRaiseRacing = my_bet > (my_stack / 3);
@@ -84,13 +84,12 @@ module.exports = {
                 return betCallback(minimumRaiseAmount)
             }
 
+            let combination = combinations
+                .getBestCombination(my_cards, community_cards);
+
             // Если у нас уже кончаются деньги, то мы пытаемся уйти в all-win
             if (big_blind > my_stack) {
                 return betCallback(MAX_BET);
-            }
-
-            if (isRaiseRacing) {
-                return betCallback(0);
             }
 
             if (is_preflop) {
@@ -101,11 +100,24 @@ module.exports = {
                 }
             }
 
-            let combination = combinations
-                .getBestCombination(my_cards, community_cards);
+            if (active_player_count < 5 && combination >
+                    2 && (my_stack < (big_blind * 3))) {
+                return betCallback(MAX_BET);
+            }
+
             if (active_player_count < 3 && combination > 3) {
                 return betCallback(MAX_BET);
             }
+
+            if (active_player_count < 3 && combination > 3) {
+                return betCallback(MAX_BET);
+            }
+
+            // Стараемся не сжигать деньги
+            if (isRaiseRacing) {
+                return betCallback(0);
+            }
+
             if (combination > 3 && !isPotentialRaiseRacing) {
                 return betCallback(minimumRaiseAmount);
             } else if (combination > 4) {
