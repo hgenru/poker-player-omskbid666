@@ -1,4 +1,6 @@
-const
+const CARD_RANKS = {
+
+};
 
 module.exports = {
 
@@ -10,7 +12,7 @@ module.exports = {
                 return p.hole_cards && p.hole_cards.length > 0;
             });
             let myCards = player.hole_cards;
-
+            // myCards.
 
         } catch (e) {
             bet(10000);
