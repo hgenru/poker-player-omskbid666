@@ -94,7 +94,9 @@ module.exports = {
 
             let combination = combinations
                 .getBestCombination(my_cards, community_cards);
-            if (combination > 4) {
+            if (combination > 3 && !isPotentialRaiseRacing) {
+                return betCallback(minitmutRauseAmount);
+            } else if (combination > 4) {
                 return betCallback(minitmutRauseAmount);
             }
 
