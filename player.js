@@ -94,7 +94,7 @@ module.exports = {
 
             let combination = combinations
                 .getBestCombination(my_cards, community_cards);
-            if (combination !== null) {
+            if (combination > 4) {
                 return betCallback(minitmutRauseAmount);
             }
 
