@@ -1,7 +1,7 @@
 
 module.exports = {
 
-  VERSION: "Default JavaScript folding player",
+  VERSION: "JavaScript Omsk Bird (простите, у меня не работает клава нормально)",
 
   bet_request: function(game_state, bet) {
     bet(50);
