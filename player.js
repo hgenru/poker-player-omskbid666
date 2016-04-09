@@ -71,10 +71,15 @@ module.exports = {
             const my_cards = player.hole_cards;
 
             let minitmutRauseAmount = current_buy_in - my_bet + minimum_raise;
+            let isRaiseRacing = my_bet > (my_stack / 3);
 
             // Если у нас уже кончаются деньги, то мы пытаемся уйти в all-win
             if (big_blind > my_stack) {
                 return betCallback(MAX_BET);
+            }
+
+            if (isRaiseRacing) {
+                return betCallback(0);
             }
 
             if (is_preflop) {

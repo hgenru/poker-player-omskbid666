@@ -49,10 +49,10 @@ function mergeCards(player_hand, cards) {
 
 function getAllCombinations(cards) {
     var combs = [];
-    var types = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-    var values = cards.map(e => e.rank);
-    var counts = types.map(c => countItems(values, c));
-    var max = Math.max.apply(Math, counts);
+    let types = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+    let values = cards.map(e => e.rank);
+    let counts = types.map(c => countItems(values, c));
+    let max = Math.max.apply(Math, counts);
     if (max === 2) {
         combs.push(PAIR);
     } else if (max === 3) {
@@ -70,13 +70,18 @@ function getAllCombinations(cards) {
             } else {
                 counter = 0;
             }
-            if (counter == 5) {
+            if (counter === 5) {
                 combs.push(STRAIGHT);
                 break;
             }
         }
+        let cardSuites = cards.map(e => e.suit);
+        let suits = ["clubs", "spades", "hearts", "diamonds"];
+        let suitesCount = suits.map(c => countItems(cardSuites, c));
+        if (Math.max.apply(Math, suitesCount) === 5) {
+            combs.push(FLUSH);
+        }
     }
-
     return combs;
 };
 

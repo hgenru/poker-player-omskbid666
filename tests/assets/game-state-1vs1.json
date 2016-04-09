@@ -25,7 +25,7 @@
             "status": "active",
             "version": "Default random player",
             "stack": 15,
-            "bet": 80,
+            "bet": 10,
             "hole_cards": [
                 {
                     "rank": "6",
