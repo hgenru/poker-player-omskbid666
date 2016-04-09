@@ -1,5 +1,6 @@
 'use strict';
 const chai = require('chai'); chai.should();
+const expect = chai.expect;
 const getBestCombination = require('../combinations').getBestCombination;
 
 describe('combinations', function() {
@@ -18,6 +19,71 @@ describe('combinations', function() {
                 }
             ];
             getBestCombination(HAND, TABLE).should.be.equal('pair');
+        });
+        it('best is null', function() {
+            const HAND = [
+                {
+                    rank: '6',
+                    suit: 'spades'
+                }
+            ];
+            const TABLE = [
+                {
+                    rank: 'A',
+                    suit: 'spades'
+                }
+            ];
+            expect(getBestCombination(HAND, TABLE)).to.be.equal(null);
+        });
+        it('best is three', function() {
+            const HAND = [
+                {
+                    rank: 'A',
+                    suit: 'spades'
+                }
+            ];
+            const TABLE = [
+                {
+                    rank: 'A',
+                    suit: 'spades'
+                },
+                {
+                    rank: 'A',
+                    suit: 'spades'
+                },
+                {
+                    rank: '7',
+                    suit: 'spades'
+                }
+            ];
+            expect(getBestCombination(HAND, TABLE)).to.be.equal('three');
+        });
+        it('best is two pairs', function() {
+            const HAND = [
+                {
+                    rank: 'J',
+                    suit: 'spades'
+                },
+                {
+                    rank: '7',
+                    suit: 'hearts'
+                }
+            ];
+            const TABLE = [
+                {
+                    rank: 'J',
+                    suit: 'hearts'
+                },
+                {
+                    rank: 'A',
+                    suit: 'spades'
+                },
+                {
+                    rank: '7',
+                    suit: 'spades'
+                }
+            ];
+            expect(getBestCombination(HAND, TABLE)).to.be.equal('two_pairs');
         });
     });
 });
