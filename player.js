@@ -73,10 +73,10 @@ module.exports = {
             const active_player_count = players.filter(
                 e => e.status === 'active').length
 
-            let minitmutRauseAmount = current_buy_in - my_bet + minimum_raise;
+            let minimumRaiseAmount = current_buy_in - my_bet + minimum_raise;
             let isRaiseRacing = my_bet > (my_stack / 3);
             let isPotentialRaiseRacing = (
-                minitmutRauseAmount + my_bet) > big_blind * 2;
+                minimumRaiseAmount + my_bet) > big_blind * 2;
 
             // Если у нас уже кончаются деньги, то мы пытаемся уйти в all-win
             if (big_blind > my_stack) {
@@ -91,7 +91,7 @@ module.exports = {
                 let myCards = player.hole_cards;
                 let iCanRaise = raiseCheck(myCards);
                 if (iCanRaise) {
-                    return betCallback(minitmutRauseAmount);
+                    return betCallback(minimumRaiseAmount);
                 }
             }
 
@@ -101,9 +101,9 @@ module.exports = {
                 return betCallback(MAX_BET);
             }
             if (combination > 3 && !isPotentialRaiseRacing) {
-                return betCallback(minitmutRauseAmount);
+                return betCallback(minimumRaiseAmount);
             } else if (combination > 4) {
-                return betCallback(minitmutRauseAmount);
+                return betCallback(minimumRaiseAmount);
             }
 
             // get_hands(myCards, communityCards);
