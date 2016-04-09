@@ -41,13 +41,13 @@ function raiseCheck(rawCards) {
             rank: CARD_RANKS[card.rank]
         });
     }
-    let points = cards[0].rank + cards[1].rank;
+    let points = (cards[0].rank + cards[1].rank) || 32;
     for (let gameCaseFunc of GAME_CASES) {
         points += gameCaseFunc(cards[0], cards[1]) || 0;
     }
     console.log('HUTCHINSON POINTS', points);
     if (points >= HUTCHINSON_CONST) {
-        return true;
+        return points;
     }
     return false;
 }
@@ -105,6 +105,9 @@ module.exports = {
             if (is_preflop) {
                 let myCards = player.hole_cards;
                 let iCanRaise = raiseCheck(myCards);
+                if (iCanRaise > 34 && minimum_raise > 1000) {
+                    raiseCheck(MAX_BET);
+                }
                 if (iCanRaise) {
                     return betCallback(minimumRaiseAmount);
                 }

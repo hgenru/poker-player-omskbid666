@@ -29,7 +29,7 @@ describe('hudchinson', function() {
                     suit: 'spades'
                 }
             ];
-            raiseChech(HAND).should.be.equal(true);
+            raiseChech(HAND).should.be.equal(32);
         });
     });
 });
