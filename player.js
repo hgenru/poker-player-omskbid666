@@ -83,6 +83,9 @@ var combinations = function(cards) {
     } else if (max === 3) {
         combs.push(THREE);
     }
+    if (countItems(counts, 2) === 2) {
+        combs.push(TWOPAIRS);
+    }
     return combs;
 };
 
