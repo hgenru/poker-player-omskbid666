@@ -21,8 +21,11 @@ const HIGH = 0;
 const PAIR = 1;
 const TWOPAIRS = 2;
 const THREE = 3;
+const STRAIGHT = 4;
+const FLUSH = 5;
 
-const COMBINATION = ['high', 'pair', 'two_pairs', 'three']
+
+const COMBINATION = ['high', 'pair', 'two_pairs', 'three', 'straight', 'flush']
 
 var countItems = function(arr, what) {
     var count = 0;
@@ -58,6 +61,22 @@ function getAllCombinations(cards) {
     if (countItems(counts, 2) === 2) {
         combs.push(TWOPAIRS);
     }
+    var counter = 0;
+    if (cards.length > 4) {
+        for (var i = 0; i < counts.length; i++) {
+            let c = counts[i];
+            if (c > 0) {
+                counter += 1;
+            } else {
+                counter = 0;
+            }
+            if (counter == 5) {
+                combs.push(STRAIGHT);
+                break;
+            }
+        }
+    }
+
     return combs;
 };
 

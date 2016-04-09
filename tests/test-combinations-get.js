@@ -85,5 +85,32 @@ describe('combinations', function() {
             ];
             expect(getBestCombination(HAND, TABLE)).to.be.equal('two_pairs');
         });
+        it('best is straight', function() {
+            const HAND = [
+                {
+                    rank: '2',
+                    suit: 'spades'
+                },
+                {
+                    rank: '3',
+                    suit: 'hearts'
+                }
+            ];
+            const TABLE = [
+                {
+                    rank: '4',
+                    suit: 'hearts'
+                },
+                {
+                    rank: '5',
+                    suit: 'spades'
+                },
+                {
+                    rank: '6',
+                    suit: 'spades'
+                }
+            ];
+            expect(getBestCombination(HAND, TABLE)).to.be.equal('straight');
+        });
     });
 });
