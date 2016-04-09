@@ -4,14 +4,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-      "test": "mocha -R spec ./tests/test-*.js"
+    "test": "mocha -R spec ./tests/test-*.js"
   },
   "dependencies": {
     "express": "3.x"
   },
   "devDependencies": {
-    "eslint-config-google": "^0.4.0",
     "chai": "^3.5.0",
-    "mocha": "^2.4.5"
+    "eslint-config-google": "^0.4.0",
+    "mocha": "^2.4.5",
+    "supertest": "^1.2.0"
   }
 }
