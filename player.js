@@ -1,4 +1,5 @@
 'use strict';
+const combinations = require('./combinations');
 
 const MAX_BET = 10000;
 
@@ -18,11 +19,6 @@ const CARD_RANKS = {
     'K': 14,
     'A': 16
 };
-
-const HIGH = 0;
-const PAIR = 1;
-const TWOPAIRS = 2;
-const THREE = 3;
 
 const GAME_CASES = [
     (c1, c2) => c1.rank === c2.rank ? 10 : 0,
@@ -52,43 +48,6 @@ function raiseCheck(cards) {
     return false;
 }
 
-var countItems = function(arr, what) {
-    var count = 0;
-    var i;
-    while ((i = arr.indexOf(what, i)) !== -1) {
-        ++count;
-        ++i;
-    }
-    return count;
-};
-
-var get_hands = function(player_hand, cards) {
-    var all = player_hand.concat(cards);
-    all = all.map((el) => {
-        el.rank = CARD_RANKS[el.rank];
-        return el;
-    });
-    all = all.sort((a, b) => a.rank - b.rank);
-    console.log(all);
-    let combs = combinations(all);
-    console.log(combs);
-    return combs;
-};
-
-var combinations = function(cards) {
-    var combs = [];
-    var types = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-    var values = cards.map(e => e.rank);
-    var counts = types.map(c => countItems(values, c));
-    var max = Math.max.apply(Math, counts);
-    if (max === 2) {
-        combs.push(PAIR);
-    } else if (max === 3) {
-        combs.push(THREE);
-    }
-    return combs;
-};
-
 module.exports = {
 
     VERSION: 'I LOVE UNICODE',
@@ -106,8 +65,10 @@ module.exports = {
             const big_blind = small_blind * 2;
             const is_preflop = community_cards.length === 0;
             const player = players[game_state.in_action];
+            //
             const my_bet = player.bet;
             const my_stack = player.stack;
+            const my_cards = player.hole_cards;
 
             let minitmutRauseAmount = current_buy_in - my_bet + minimum_raise;
 
@@ -122,6 +83,12 @@ module.exports = {
                 if (iCanRaise) {
                     return betCallback(minitmutRauseAmount);
                 }
+            }
+
+            let combination = combinations
+                .getBestCombination(my_cards, community_cards);
+            if (combination !== null) {
+                return betCallback(minitmutRauseAmount);
             }
 
             // get_hands(myCards, communityCards);
