@@ -48,6 +48,9 @@ module.exports = {
 
     VERSION: 'I LOVE UNICODE',
 
+    // утилиты
+    raiseCheck: raiseCheck,
+
     bet_request: function(game_state, bet) {
         try {
             let player = game_state.players.find((p) => {
