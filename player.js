@@ -34,7 +34,7 @@ function raiseCheck(cards) {
     for (let card of cards) {
         card.rank = CARD_RANKS[card.rank];
     }
-    let points = 0;
+    let points = cards[0].rank + cards[1].rank;
     for (let gameCaseFunc of GAME_CASES) {
         points += gameCaseFunc(cards[0], cards[1]) || 0;
     }
