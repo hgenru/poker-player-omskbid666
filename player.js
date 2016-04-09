@@ -78,13 +78,12 @@ module.exports = {
             let isPotentialRaiseRacing = (
                 minitmutRauseAmount + my_bet) > big_blind * 2;
 
+            let combination = combinations
+                .getBestCombination(my_cards, community_cards);
+
             // Если у нас уже кончаются деньги, то мы пытаемся уйти в all-win
             if (big_blind > my_stack) {
                 return betCallback(MAX_BET);
-            }
-
-            if (isRaiseRacing) {
-                return betCallback(0);
             }
 
             if (is_preflop) {
@@ -94,9 +93,6 @@ module.exports = {
                     return betCallback(minitmutRauseAmount);
                 }
             }
-
-            let combination = combinations
-                .getBestCombination(my_cards, community_cards);
 
             if (active_player_count < 5 && combination >
                     2 && (my_stack < (big_blind * 3))) {
@@ -109,6 +105,11 @@ module.exports = {
 
             if (active_player_count < 3 && combination > 3) {
                 return betCallback(MAX_BET);
+            }
+
+            // Стараемся не сжигать деньги
+            if (isRaiseRacing) {
+                return betCallback(0);
             }
 
             if (combination > 3 && !isPotentialRaiseRacing) {
