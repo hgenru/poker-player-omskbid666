@@ -101,6 +101,8 @@ module.exports = {
             const minimum_raise = game_state.minimum_raise;
             const current_buy_in = game_state.current_buy_in;
             const my_bet = players[in_action][bet];
+            const community_cards = game_state.community_cards;
+            const is_preflop = community_cards.length === 0;
             const player = players.players.find((p) => {
                 return p.hole_cards && p.hole_cards.length > 0;
             });
