@@ -95,15 +95,24 @@ module.exports = {
 
     bet_request: function(game_state, bet) {
         try {
-            let player = game_state.players.find((p) => {
+            const players = game_state.players;
+            const in_action = game_state.in_action;
+            const bet = game_state.bet;
+            const minimum_raise = game_state.minimum_raise;
+            const current_buy_in = game_state.current_buy_in;
+            const my_bet = players[in_action][bet];
+            const player = players.players.find((p) => {
                 return p.hole_cards && p.hole_cards.length > 0;
             });
+
+            let minitmutRauseAmount = current_buy_in - my_bet + minimum_raise;
+
             let myCards = player.hole_cards;
             let communityCards = game_state.community_cards
             get_hands(myCards, communityCards);
             let iCanRaise = raiseCheck(myCards);
             if (iCanRaise) {
-                return bet(10000);
+                return bet(minitmutRauseAmount);
             }
             return bet(0);
         } catch (e) {
