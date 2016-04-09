@@ -59,7 +59,7 @@ var countItems = function(arr, what) {
     return count;
 };
 
-var get_hands = function(player_hand, cards) {
+var getBestCombination = function(player_hand, cards) {
     var all = player_hand.concat(cards);
     all = all.map((el) => {
         el.rank = CARD_RANKS[el.rank];
@@ -67,12 +67,12 @@ var get_hands = function(player_hand, cards) {
     });
     all = all.sort((a, b) => a.rank - b.rank);
     console.log(all);
-    let combs = combinations(all);
+    let combs = getAllCombinations(all);
     console.log(combs);
-    return combs;
+    return Math.max.apply(Math, combs);
 };
 
-var combinations = function(cards) {
+var getAllCombinations = function(cards) {
     var combs = [];
     var types = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
     var values = cards.map(e => e.rank);
@@ -103,7 +103,7 @@ module.exports = {
             });
             let myCards = player.hole_cards;
             let communityCards = game_state.community_cards
-            get_hands(myCards, communityCards);
+            getBestCombination(myCards, communityCards);
             let iCanRaise = raiseCheck(myCards);
             if (iCanRaise) {
                 return bet(10000);
