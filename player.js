@@ -45,7 +45,7 @@ function raiseCheck(rawCards) {
     for (let gameCaseFunc of GAME_CASES) {
         points += gameCaseFunc(cards[0], cards[1]) || 0;
     }
-    console.log('HUTCHINSON POINTS', points);
+    console.log('HUTCHINSON POINTS', points, cards);
     if (points >= HUTCHINSON_CONST) {
         return points;
     }
