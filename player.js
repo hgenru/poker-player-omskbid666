@@ -1,5 +1,5 @@
 'use strict';
-let combinations = require('./combinations')
+const combinations = require('./combinations');
 
 const CARD_RANKS = {
     '1': 1,
