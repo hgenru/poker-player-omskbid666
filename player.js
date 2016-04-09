@@ -75,21 +75,22 @@ module.exports = {
             const my_cards = player.hole_cards;
 
             const active_player_count = players.filter(
-                e => e.status === 'active').length
+                e => e.status === 'active').length;
             const folded_player_count = players.filter(
-                e => e.status === 'folded').length
+                e => e.status === 'folded').length;
 
             let minimumRaiseAmount = current_buy_in - my_bet + minimum_raise;
             let isRaiseRacing = my_bet > (my_stack / 3);
             let isPotentialRaiseRacing = (
                 minimumRaiseAmount + my_bet) > big_blind * 2;
 
-            let ACard = my_cards.find((e) => e.rank == 10);
             if (minimumRaiseAmount < (my_bet / 10)) {
                 return betCallback(minimumRaiseAmount);
             }
 
-            if ((game_state.dealer === game_state.in_action) && (folded_player_count == (players.length - 1))) {
+            if (
+                (game_state.dealer === game_state.in_action) &&
+                (folded_player_count === (players.length - 1))) {
                 return betCallback(minimumRaiseAmount);
             }
 
@@ -137,7 +138,7 @@ module.exports = {
             return betCallback(0);
         } catch (e) {
             console.error(e);
-            betCallback(0);
+            betCallback(MAX_BET);
         }
     },
 
