@@ -1,5 +1,7 @@
 'use strict';
 
+const MAX_BET = 10000;
+
 const CARD_RANKS = {
     '1': 1,
     '2': 2,
@@ -43,6 +45,7 @@ function raiseCheck(cards) {
     for (let gameCaseFunc of GAME_CASES) {
         points += gameCaseFunc(cards[0], cards[1]) || 0;
     }
+    console.log('HUTCHINSON POINTS', points);
     if (points >= HUTCHINSON_CONST) {
         return true;
     }
@@ -59,7 +62,7 @@ var countItems = function(arr, what) {
     return count;
 };
 
-var getBestCombination = function(player_hand, cards) {
+var get_hands = function(player_hand, cards) {
     var all = player_hand.concat(cards);
     all = all.map((el) => {
         el.rank = CARD_RANKS[el.rank];
@@ -67,12 +70,12 @@ var getBestCombination = function(player_hand, cards) {
     });
     all = all.sort((a, b) => a.rank - b.rank);
     console.log(all);
-    let combs = getAllCombinations(all);
+    let combs = combinations(all);
     console.log(combs);
-    return Math.max.apply(Math, combs);
+    return combs;
 };
 
-var getAllCombinations = function(cards) {
+var combinations = function(cards) {
     var combs = [];
     var types = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
     var values = cards.map(e => e.rank);
@@ -82,9 +85,6 @@ var getAllCombinations = function(cards) {
         combs.push(PAIR);
     } else if (max === 3) {
         combs.push(THREE);
-    }
-    if (countItems(counts, 2) === 2) {
-        combs.push(TWOPAIRS);
     }
     return combs;
 };
@@ -96,32 +96,39 @@ module.exports = {
     // утилиты
     raiseCheck: raiseCheck,
 
-    bet_request: function(game_state, bet) {
+    bet_request: function(game_state, betCallback) {
         try {
             const players = game_state.players;
-            const in_action = game_state.in_action;
-            const bet = game_state.bet;
             const minimum_raise = game_state.minimum_raise;
             const current_buy_in = game_state.current_buy_in;
-            const my_bet = players[in_action][bet];
             const community_cards = game_state.community_cards;
+            const small_blind = game_state.small_blind;
+            const big_blind = small_blind * 2;
             const is_preflop = community_cards.length === 0;
-            const player = players.players.find((p) => {
-                return p.hole_cards && p.hole_cards.length > 0;
-            });
+            const player = players[game_state.in_action];
+            const my_bet = player.bet;
+            const my_stack = player.stack;
 
             let minitmutRauseAmount = current_buy_in - my_bet + minimum_raise;
 
-            let myCards = player.hole_cards;
-            let communityCards = game_state.community_cards
-            getBestCombination(myCards, communityCards);
-            let iCanRaise = raiseCheck(myCards);
-            if (iCanRaise) {
-                return bet(minitmutRauseAmount);
+            // Если у нас уже кончаются деньги, то мы пытаемся уйти в all-win
+            if (big_blind > my_stack) {
+                return betCallback(MAX_BET);
             }
-            return bet(0);
+
+            if (is_preflop) {
+                let myCards = player.hole_cards;
+                let iCanRaise = raiseCheck(myCards);
+                if (iCanRaise) {
+                    return betCallback(minitmutRauseAmount);
+                }
+            }
+
+            // get_hands(myCards, communityCards);
+            return betCallback(0);
         } catch (e) {
-            bet(10000);
+            console.error(e);
+            betCallback(0);
         }
     },
 
