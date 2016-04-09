@@ -33,9 +33,13 @@ const GAME_CASES = [
 const HUTCHINSON_CONST = 30;
 // const HUTCHINSON_CONST = 34;
 
-function raiseCheck(cards) {
-    for (let card of cards) {
-        card.rank = CARD_RANKS[card.rank];
+function raiseCheck(rawCards) {
+    let cards = [];
+    for (let card of rawCards) {
+        cards.push({
+            suit: card.suit,
+            rank: CARD_RANKS[card.rank]
+        });
     }
     let points = cards[0].rank + cards[1].rank;
     for (let gameCaseFunc of GAME_CASES) {
@@ -80,8 +84,13 @@ module.exports = {
             let isPotentialRaiseRacing = (
                 minimumRaiseAmount + my_bet) > big_blind * 2;
 
+            let ACard = my_cards.find((e) => e.rank == 10);
+            if (minimumRaiseAmount < (my_bet / 10)) {
+                return betCallback(minimumRaiseAmount);
+            }
+
             if ((game_state.dealer === game_state.in_action) && (folded_player_count == (players.length - 1))) {
-                return betCallback(minimumRaiseAmount)
+                return betCallback(minimumRaiseAmount);
             }
 
             let combination = combinations
