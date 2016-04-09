@@ -1,13 +1,23 @@
+const
 
 module.exports = {
 
-  VERSION: "JavaScript Omsk Bird (простите, у меня не работает клава нормально)",
+    VERSION: 'I LOVE UNICODE',
 
-  bet_request: function(game_state, bet) {
-    bet(10000);
-  },
+    bet_request: function(game_state, bet) {
+        try {
+            let player = game_state.players.find((p) => {
+                return p.hole_cards && p.hole_cards.length > 0;
+            });
+            let myCards = player.hole_cards;
 
-  showdown: function(game_state) {
 
-  }
+        } catch (e) {
+            bet(10000);
+        }
+    },
+
+    showdown: function(game_state) {
+
+    }
 };
